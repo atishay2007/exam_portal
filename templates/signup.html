@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Create Account</h3>
+  <form method="post">
+    <div class="form-row">
+      <input class="input" name="username" placeholder="Choose a username" required>
+    </div>
+    <div class="form-row">
+      <input class="input" name="password" type="password" placeholder="Choose a password" required>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" type="submit">Sign up</button>
+      <a class="btn" href="{{ url_for('login') }}" style="background:#6c757d">Have an account?</a>
+    </div>
+  </form>
+  <p class="small" style="margin-top:12px">Usernames must be unique. Passwords are stored hashed.</p>
+</div>
+{% endblock %}

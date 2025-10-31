@@ -1,0 +1,15 @@
+{
+  "aa": {
+    "password": "aa",
+    "scores": []
+  },
+  "aaaa": {
+    "password": "scrypt:32768:8:1$y2BUGUMCs75ws07j$02809a7e81e25727222faa193db7f98ea532f2b9029f4b785ecd560d7e4e753bc07f0d38eeae13d43badea1bf10593bc0aac978ff3d305ed83fcd811ad48e0d9",
+    "scores": [
+      {
+        "score": 1,
+        "out_of": 2
+      }
+    ]
+  }
+}

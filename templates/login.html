@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Client Login</h3>
+  <form method="post">
+    <div class="form-row">
+      <input class="input" name="username" placeholder="Username" required>
+    </div>
+    <div class="form-row">
+      <input class="input" name="password" type="password" placeholder="Password" required>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" type="submit">Login</button>
+      <a class="btn" href="{{ url_for('signup') }}" style="background:#20c997">Create account</a>
+    </div>
+  </form>
+  <p class="small" style="margin-top:10px">If you are admin, click Admin on the top nav.</p>
+</div>
+{% endblock %}

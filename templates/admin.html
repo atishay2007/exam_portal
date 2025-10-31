@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Admin Panel</h3>
+  <p class="small">Add new question to the bank</p>
+  <form method="post" action="{{ url_for('admin_add') }}">
+    <div class="form-row">
+      <input name="question" class="input" placeholder="Question text" required>
+    </div>
+    <div class="form-row">
+      <input name="opt1" class="input" placeholder="Option 1" required>
+      <input name="opt2" class="input" placeholder="Option 2" required>
+    </div>
+    <div class="form-row">
+      <input name="opt3" class="input" placeholder="Option 3" required>
+      <input name="opt4" class="input" placeholder="Option 4" required>
+    </div>
+    <div class="form-row">
+      <input name="answer" class="input" placeholder="Correct answer (exact match)" required>
+      <select name="difficulty" class="input">
+        <option>easy</option><option>medium</option><option>hard</option>
+      </select>
+    </div>
+    <button class="btn" type="submit">Add question</button>
+  </form>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h4>Question Bank</h4>
+  {% if questions %}
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="text-align:left;color:#6c757d;font-size:0.9rem">
+          <th style="padding:8px">Question</th>
+          <th style="padding:8px">Difficulty</th>
+          <th style="padding:8px;text-align:right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for q in questions %}
+          <tr>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">
+              <strong>{{ q.question }}</strong>
+              <div class="small">Options: {{ q.options|join(', ') }}</div>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.difficulty }}</td>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1;text-align:right">
+              <a class="btn" href="{{ url_for('admin_delete', qid=q.id) }}" style="background:#dc3545">Delete</a>
+              <a class="btn" href="{{ url_for('admin_edit', qid=q.id) }}" style="background:#6f42c1">Edit</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="small">No questions yet. Add some above.</p>
+  {% endif %}
+</div>
+{% endblock %}

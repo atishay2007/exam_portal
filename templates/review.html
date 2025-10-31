@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Review - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Full Review</h3>
+  {% for r in review %}
+    <div style="margin-bottom:12px;padding:12px;border-radius:8px;background:#fff">
+      <div><strong>{{ loop.index }}. {{ r.question }}</strong></div>
+      <div class="small">Options: {{ r.options|join(', ') }}</div>
+      <div class="small" style="margin-top:6px">Your answer: <strong>{{ r.your or '(no answer)' }}</strong></div>
+      <div class="small">Correct answer: <strong>{{ r.correct }}</strong></div>
+      <div style="margin-top:6px;color: {% if r.ok %}#0b8a3e{% else %}#c82333{% endif %}">{{ 'Correct' if r.ok else 'Incorrect' }}</div>
+    </div>
+  {% endfor %}
+  <a class="btn" href="{{ url_for('profile') }}">Back to profile</a>
+</div>
+{% endblock %}
+

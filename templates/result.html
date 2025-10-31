@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Result - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Result</h3>
+  <p class="small">You scored <strong>{{ score }}</strong> out of {{ out_of }}</p>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <a class="btn" href="{{ url_for('profile') }}">Go to Profile</a>
+    <a class="btn" href="{{ url_for('quiz_start') }}" style="background:#20c997">Take another</a>
+    <a class="btn" href="{{ url_for('home') }}" style="background:#6c757d">Home</a>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <h4>Review</h4>
+  {% for r in review %}
+    <div style="margin-bottom:10px;padding:10px;border-radius:6px;background: {% if r.ok %}#e6ffed{% else %}#ffe6e6{% endif %}">
+      <div><strong>{{ r.question }}</strong></div>
+      <div class="small">Your answer: {{ r.your or '(no answer)' }} — Correct: {{ r.correct }}</div>
+      <div class="small">Options: {{ r.options|join(', ') }}</div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

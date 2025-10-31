@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Admin Login - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Admin Login</h3>
+  <form method="post">
+    <div class="form-row">
+      <input class="input" name="username" placeholder="Admin username" required>
+    </div>
+    <div class="form-row">
+      <input class="input" name="password" type="password" placeholder="Admin password" required>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" type="submit">Login as Admin</button>
+      <a class="btn" href="{{ url_for('home') }}" style="background:#6c757d">Back</a>
+    </div>
+  </form>
+  <p class="small" style="margin-top:10px">Default admin credentials are in app.py; change them before final submission.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+[
+  {
+    "question": "What is 2 + 2?",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "answer": "4",
+    "difficulty": "easy",
+    "id": 834523
+  },
+  {
+    "question": "Capital of France?",
+    "options": [
+      "Berlin",
+      "Madrid",
+      "Paris",
+      "Rome"
+    ],
+    "answer": "Paris",
+    "difficulty": "easy",
+    "id": 581307
+  },
+  {
+    "question": "What is the square root of 16?",
+    "options": [
+      "2",
+      "4",
+      "6",
+      "8"
+    ],
+    "answer": "4",
+    "difficulty": "medium",
+    "id": 766049
+  }
+]

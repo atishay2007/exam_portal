@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Profile - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Welcome, {{ username }}</h3>
+  <p class="small">Quick actions and your recent scores</p>
+
+  <div style="display:flex;gap:10px;margin-top:12px">
+    <a class="btn" href="{{ url_for('quiz_start') }}">Start Quiz</a>
+    <a class="btn" href="{{ url_for('logout') }}" style="background:#dc3545">Logout</a>
+  </div>
+
+  <div style="margin-top:14px">
+    <h4>Your Scores</h4>
+    {% if scores %}
+      <ul>
+        {% for s in scores %}
+          <li class="small">Score: {{ s.score }} / {{ s.out_of }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="small">No attempts yet. Give a quiz a try.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

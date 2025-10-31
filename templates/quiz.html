@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>Question {{ idx+1 }} / {{ total }}</div>
+    <div class="small">Time left: <span id="timeLeft">{{ per_q }}</span>s</div>
+  </div>
+  <div class="progress" style="margin-top:10px"><div id="progBar" style="width:{{ progress }}%"></div></div>
+
+  <h4 style="margin-top:14px">{{ q.question }}</h4>
+  <form id="answerForm" method="post">
+    {% for opt in q.options %}
+      <div style="margin:8px 0">
+        <label>
+          <input type="radio" name="option" value="{{ opt }}" required> {{ opt }}
+        </label>
+      </div>
+    {% endfor %}
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn" type="submit">Submit</button>
+      <a class="btn" href="{{ url_for('quiz_start') }}" style="background:#6c757d">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  // start per-question timer and set progress visually
+  startTimer({{ per_q }});
+  setProgress({{ progress }});
+</script>
+{% endblock %}

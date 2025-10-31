@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="banner">
+  <img src="https://via.placeholder.com/120x60?text=VIT" alt="VIT logo">
+  <div>
+    <h2>VIT Exam Portal</h2>
+    <p class="small">Clean interface for quizzes — admin and client access</p>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h3>Take a Quiz</h3>
+    <p class="small">Login or create an account to start.</p>
+    <a href="{{ url_for('login') }}" class="btn">Client Login</a>
+    <a href="{{ url_for('signup') }}" class="btn" style="background:#20c997">Sign up</a>
+  </div>
+
+  <div class="card">
+    <h3>Admin</h3>
+    <p class="small">Manage question bank and view leaderboard</p>
+    <a href="{{ url_for('admin_login') }}" class="btn">Admin Login</a>
+  </div>
+
+  <div class="card">
+    <h3>Top Scores</h3>
+    <ol>
+      {% for e in leaderboard %}
+        <li>{{ e.user }} — {{ e.score }}/{{ e.out_of }}</li>
+      {% else %}
+        <li class="small">No results yet</li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+{% endblock %}

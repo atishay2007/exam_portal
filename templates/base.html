@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}VIT Exam Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</head>
+<body>
+  <div class="navbar">
+    <div><strong>VIT Exam Portal</strong></div>
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('login') }}">Client</a>
+      <a href="{{ url_for('admin_login') }}">Admin</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <button class="btn" onclick="toggleTheme()">🌓</button>
+    </div>
+  </div>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="card small">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <div class="footer">Made by Team VIT • Simple exam portal for demo</div>
+  </div>
+</body>
+</html>
