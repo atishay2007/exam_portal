@@ -5,16 +5,22 @@
   <h3>Create Account</h3>
   <form method="post">
     <div class="form-row">
-      <input class="input" name="username" placeholder="Choose a username" required>
+      <input class="input" name="username" placeholder="Username" required>
+      <input class="input" name="password" type="password" placeholder="Password" required>
     </div>
     <div class="form-row">
-      <input class="input" name="password" type="password" placeholder="Choose a password" required>
+      <input class="input" name="name" placeholder="Full Name" required>
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn" type="submit">Sign up</button>
-      <a class="btn" href="{{ url_for('login') }}" style="background:#6c757d">Have an account?</a>
+    <div class="form-row">
+      <input class="input" name="reg" placeholder="Registration Number" required>
+      <input class="input" name="course" placeholder="Course (e.g. B.Tech CSE)" required>
     </div>
+    <div class="form-row">
+      <input class="input" name="year" placeholder="Year (e.g. 1)" required>
+      <input class="input" name="dept" placeholder="Department (e.g. SCOPE)" required>
+    </div>
+    <button class="btn" type="submit">Sign Up</button>
   </form>
-  <p class="small" style="margin-top:12px">Usernames must be unique. Passwords are stored hashed.</p>
+  <p class="small" style="margin-top:12px">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
 </div>
 {% endblock %}

@@ -77,7 +77,16 @@ def signup():
         if not uname or uname in users:
             flash('Username invalid or taken', 'danger')
             return redirect(url_for('signup'))
-        users[uname] = {'password': generate_password_hash(pwd), 'scores': []}
+        users[uname] = {
+            'password': generate_password_hash(pwd),
+            'scores': [],
+            'name': request.form['name'],
+            'roll': request.form['roll'],
+            'reg': request.form['reg'],
+            'course': request.form['course'],
+            'year': request.form['year'],
+            'dept': request.form['dept']
+        }
         write_json(DATA_USERS, users)
         flash('Account created. Please login.', 'success')
         return redirect(url_for('login'))
