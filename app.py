@@ -290,6 +290,22 @@ def leaderboard():
     leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
     return jsonify(leader[:10])
 
+@app.route('/recover', methods=['GET', 'POST'])
+def recover():
+    if request.method == 'POST':
+        uname = request.form['username'].strip()
+        users = read_json(DATA_USERS)
+        if uname not in users:
+            flash('Username not found', 'danger')
+            return redirect(url_for('recover'))
+        # Update password
+        new_pwd = request.form['new_password']
+        users[uname]['password'] = generate_password_hash(new_pwd)
+        write_json(DATA_USERS, users)
+        flash('Password updated. Please login.', 'success')
+        return redirect(url_for('login'))
+    return render_template('recover.html')
+
 # Run
 if __name__ == '__main__':
     # ensure question ids exist at startup

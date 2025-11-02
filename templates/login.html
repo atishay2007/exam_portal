@@ -15,6 +15,9 @@
       <a class="btn" href="{{ url_for('signup') }}" style="background:#20c997">Create account</a>
     </div>
   </form>
+  <p class="small" style="margin-top:10px">
+  Forgot your password? <a href="{{ url_for('recover') }}">Reset it here</a>
+  </p>
   <p class="small" style="margin-top:10px">If you are admin, click Admin on the top nav.</p>
 </div>
 {% endblock %}
