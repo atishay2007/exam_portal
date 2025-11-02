@@ -119,8 +119,9 @@ def profile():
         return redirect(url_for('login'))
     users = read_json(DATA_USERS)
     uname = session['user']
-    scores = users.get(uname, {}).get('scores', [])
-    return render_template('profile.html', username=uname, scores=scores)
+    user = users.get(uname, {})
+    scores = user.get('scores', [])
+    return render_template('profile.html', username=uname, user=user, scores=scores)
 
 # Quiz start: choose difficulty, number, per-question time
 @app.route('/quiz_start', methods=['GET','POST'])
