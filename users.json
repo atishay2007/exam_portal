@@ -9,6 +9,27 @@
       {
         "score": 1,
         "out_of": 2
+      },
+      {
+        "score": 1,
+        "out_of": 3
+      },
+      {
+        "score": 0,
+        "out_of": 3
+      },
+      {
+        "score": 0,
+        "out_of": 3
+      }
+    ]
+  },
+  "abc": {
+    "password": "scrypt:32768:8:1$vWYCi6nk4h4Exd5K$a93dfe7dc1bcaf01b1ee51e7f69630d5eb98e3a7446fa42c087c847eae8786a98f5daef48be47c0d7b84eb364be03db77b47b4a85af6fcf0e937a8366fef3361",
+    "scores": [
+      {
+        "score": 1,
+        "out_of": 3
       }
     ]
   }
