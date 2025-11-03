@@ -156,9 +156,10 @@ def quiz_start():
         # store minimal necessary data in session (do not include large items)
         session['quiz'] = {
             'questions': selected,
-            'answers': [],
+            'answers': [None] * len(selected),
             'current': 0,
-            'per_q': per_q
+            'per_q': per_q,
+            'marked': [],
         }
         return redirect(url_for('quiz'))
     all_q = ensure_question_ids(DATA_Q)
@@ -166,27 +167,56 @@ def quiz_start():
     return render_template('quiz_start.html', difficulties=diffs)
 
 # Serve quiz page (one question at a time)
-@app.route('/quiz', methods=['GET','POST'])
+@app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
     if 'user' not in session or 'quiz' not in session:
         return redirect(url_for('quiz_start'))
+
     quiz_data = session['quiz']
     qlist = quiz_data['questions']
     idx = quiz_data['current']
+
     if request.method == 'POST':
-        ans = request.form.get('option','')
-        quiz_data['answers'].append(ans)
-        quiz_data['current'] += 1
-        session['quiz'] = quiz_data
-        if quiz_data['current'] >= len(qlist):
+        action = request.form.get('action')
+        selected = request.form.get('option')
+
+        if action == 'submit':
+            quiz_data['answers'][idx] = selected
+            session['quiz'] = quiz_data
             return redirect(url_for('result'))
+
+        elif action == 'next':
+            quiz_data['answers'][idx] = selected
+            if idx + 1 < len(qlist):
+                quiz_data['current'] += 1
+
+        elif action == 'prev':
+            if idx > 0:
+                quiz_data['current'] -= 1
+
+        elif action == 'skip':
+            if idx + 1 < len(qlist):
+                quiz_data['current'] += 1
+
+        elif action == 'mark':
+            quiz_data['answers'][idx] = selected
+            if idx not in quiz_data['marked']:
+                quiz_data['marked'].append(idx)
+            if idx + 1 < len(qlist):
+                quiz_data['current'] += 1
+
+        session['quiz'] = quiz_data
         return redirect(url_for('quiz'))
+
     # GET
     if idx >= len(qlist):
         return redirect(url_for('result'))
+
     question = qlist[idx]
     progress = int((idx / len(qlist)) * 100)
-    return render_template('quiz.html', q=question, idx=idx, total=len(qlist), progress=progress, per_q=quiz_data['per_q'])
+    selected = quiz_data['answers'][idx]
+    return render_template('quiz.html', q=question, idx=idx, total=len(qlist),
+                           progress=progress, per_q=quiz_data['per_q'], selected=selected)
 
 from datetime import datetime
 
