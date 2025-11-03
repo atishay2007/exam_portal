@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Welcome to VIT Exam Portal</h2>
+  <p>Start your quiz by clicking below.</p>
+  <a class="btn" href="{{ url_for('quiz_start') }}">Start Quiz</a>
+</div>
+{% endblock %}

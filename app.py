@@ -269,7 +269,7 @@ def result():
         if ok:
             score += 1
         review.append({'question': q['question'], 'options': q.get('options', []), 'your': user_ans, 'correct': correct, 'ok': ok})
-
+    
     # store in users.json and leaderboard.json
     users = read_json(DATA_USERS)
     uname = session.get('user')
@@ -281,12 +281,18 @@ def result():
         })
         write_json(DATA_USERS, users)
 
-    leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
-    leader.append({'user': uname, 'score': score, 'out_of': len(qlist)})
-    leader = sorted(leader, key=lambda x: x['score'], reverse=True)
-    write_json(DATA_LEADER, leader)
+    # Save to leaderboard.json
+    leaderboard_path = 'data/leaderboard.json'
+    if os.path.exists(leaderboard_path):
+        leaderboard = read_json(leaderboard_path)
+    else:
+        leaderboard = []
 
-    return render_template('result.html', score=score, out_of=len(qlist), review=review)
+    leaderboard.append({'user': session['user'], 'score': score, 'out_of': len(qlist)})
+    leaderboard = sorted(leaderboard, key=lambda x: x['score'], reverse=True)[:10]
+    write_json(leaderboard_path, leaderboard)
+
+    return render_template('result.html', score=score, out_of=len(qlist), review=review, leaderboard=leaderboard)
 
 # ---------- Admin: login + CRUD ----------
 @app.route('/admin', methods=['GET','POST'])
