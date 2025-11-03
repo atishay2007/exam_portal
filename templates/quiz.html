@@ -2,11 +2,12 @@
 {% block content %}
 <div class="card">
   <div style="display:flex;justify-content:space-between;align-items:center">
-    <div>Question {{ idx+1 }} / {{ total }}</div>
+    <div>Question {{ idx + 1 }} / {{ total }}</div>
     <div class="small">Time left: <span id="timeLeft">{{ per_q }}</span>s</div>
   </div>
+
   <div class="progress" style="margin-top:10px">
-    <div id="progBar" style="width:{{ progress }}%;height:6px;background:#007bff;border-radius:4px"></div>
+    <div id="progBar" style="width:{{ progress }}%;height:6px;background:#007bff;border-radius:4px;transition:width 0.5s ease"></div>
   </div>
 
   <h4 style="margin-top:14px">{{ q.question }}</h4>
@@ -14,13 +15,18 @@
     {% for opt in q.options %}
       <div style="margin:8px 0">
         <label>
-          <input type="radio" name="option" value="{{ opt }}" required> {{ opt }}
+          <input type="radio" name="option" value="{{ opt }}" {% if selected == opt %}checked{% endif %} required>
+          {{ opt }}
         </label>
       </div>
     {% endfor %}
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button class="btn" type="submit">Submit</button>
-      <a class="btn" href="{{ url_for('quiz_start') }}" style="background:#6c757d">Cancel</a>
+
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+      <button class="btn" name="action" value="prev" {% if idx == 0 %}disabled{% endif %}>⬅️ Back</button>
+      <button class="btn" name="action" value="skip">⏭️ Skip</button>
+      <button class="btn" name="action" value="mark">⭐ Mark for Review</button>
+      <button class="btn" name="action" value="next">➡️ Next</button>
+      <button class="btn" name="action" value="submit" style="background:#28a745">✅ Submit Quiz</button>
     </div>
   </form>
 </div>
@@ -38,9 +44,8 @@
       if (timeLeft <= 0) {
         clearInterval(countdown);
 
-        // If no option selected, submit empty
-        const selected = form.querySelector('input[name="option"]:checked');
-        if (!selected) {
+        // Add empty option if none selected
+        if (!form.querySelector('input[name="option"]:checked')) {
           const hidden = document.createElement("input");
           hidden.type = "hidden";
           hidden.name = "option";
@@ -48,13 +53,14 @@
           form.appendChild(hidden);
         }
 
-        // Submit with default action
+        // Add default action
         const action = document.createElement("input");
         action.type = "hidden";
         action.name = "action";
         action.value = "next";
         form.appendChild(action);
-        
+
+        // Disable buttons
         form.querySelectorAll("button").forEach(btn => btn.disabled = true);
 
         form.submit();
@@ -62,5 +68,4 @@
     }, 1000);
   });
 </script>
-
 {% endblock %}

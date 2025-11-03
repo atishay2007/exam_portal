@@ -214,9 +214,31 @@ def quiz():
 
     question = qlist[idx]
     progress = int((idx / len(qlist)) * 100)
-    selected = quiz_data['answers'][idx]
+    selected = quiz_data['answers'][idx] if idx < len(quiz_data['answers']) else None
     return render_template('quiz.html', q=question, idx=idx, total=len(qlist),
                            progress=progress, per_q=quiz_data['per_q'], selected=selected)
+@app.route('/quiz_review')
+def quiz_review():
+    if 'user' not in session or 'quiz' not in session:
+        return redirect(url_for('quiz_start'))
+
+    quiz = session['quiz']
+    questions = quiz['questions']
+    answers = quiz['answers']
+    marked = quiz.get('marked', [])
+    status = []
+
+    for i, q in enumerate(questions):
+        ans = answers[i]
+        if i in marked:
+            label = '⭐ Marked'
+        elif ans:
+            label = '✅ Answered'
+        else:
+            label = '⏭️ Skipped'
+        status.append({'index': i, 'label': label})
+
+    return render_template('quiz_review.html', status=status)
 
 from datetime import datetime
 

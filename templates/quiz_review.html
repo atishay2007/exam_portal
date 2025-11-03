@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>📝 Review Your Quiz</h3>
+  <p class="small">Click any question to revisit it before submitting.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+    {% for s in status %}
+      <form method="post" action="{{ url_for('quiz_jump') }}">
+        <input type="hidden" name="index" value="{{ s.index }}">
+        <button class="btn" type="submit">{{ s.index + 1 }} - {{ s.label }}</button>
+      </form>
+    {% endfor %}
+  </div>
+
+  <form method="post" action="{{ url_for('quiz_submit') }}" style="margin-top:20px">
+    <button class="btn" style="background:#28a745">✅ Submit Quiz</button>
+  </form>
+</div>
+{% endblock %}
