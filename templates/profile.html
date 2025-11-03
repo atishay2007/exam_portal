@@ -8,25 +8,28 @@
   <div style="margin-top: 10px;">
     <p><strong>Username:</strong> {{ username }}</p>
     <p><strong>Full Name:</strong> {{ user.name }}</p>
-    <p><strong>Roll Number:</strong> {{ user.roll }}</p>
     <p><strong>Registration Number:</strong> {{ user.reg }}</p>
     <p><strong>Course:</strong> {{ user.course }}</p>
     <p><strong>Year:</strong> {{ user.year }}</p>
     <p><strong>Department:</strong> {{ user.dept }}</p>
   </div>
 
-  <div style="margin-top: 20px;">
-    <h4>Your Quiz Scores</h4>
-    {% if scores %}
-      <ul>
-        {% for s in scores %}
-          <li class="small">Scored {{ s.score }} out of {{ s.out_of }}</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="small">No quiz attempts yet.</p>
-    {% endif %}
+  <div class="card" style="margin-top:20px;padding:20px;text-align:center;background:#f8f9fa;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1)">
+    <h4 style="margin-bottom:10px;color:#007bff">Your Quiz Performance</h4>
+      {% if scores %}
+        <ul style="list-style:none;padding-left:0;font-size:0.95rem">
+          {% for s in scores %}
+            <li style="margin:6px 0">
+              ✅ Scored <strong>{{ s.score }}</strong> out of <strong>{{ s.out_of }}</strong>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="small">No quizzes taken yet. Ready to start?</p>
+      {% endif %}
+    <a class="btn" href="{{ url_for('quiz_start') }}" style="margin-top:12px">Start New Quiz</a>
   </div>
+
 
   <div style="margin-top: 20px;">
     <a class="btn" href="{{ url_for('quiz_start') }}">Start New Quiz</a>

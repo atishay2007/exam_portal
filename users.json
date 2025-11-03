@@ -1,36 +1,30 @@
 {
-  "aa": {
-    "password": "aa",
-    "scores": []
-  },
-  "aaaa": {
-    "password": "scrypt:32768:8:1$y2BUGUMCs75ws07j$02809a7e81e25727222faa193db7f98ea532f2b9029f4b785ecd560d7e4e753bc07f0d38eeae13d43badea1bf10593bc0aac978ff3d305ed83fcd811ad48e0d9",
+  "a": {
+    "password": "scrypt:32768:8:1$Vbe25J8YJ6yNVZfs$971ea357df762191bcd276abea9f865ea9c3367ad87899fd9218a8be93c0649ce60ec0b42654ee8b20aa034f5f19f7a82e30775f6fc05d64df386100801d3291",
     "scores": [
       {
-        "score": 1,
+        "score": 2,
         "out_of": 2
-      },
-      {
-        "score": 1,
-        "out_of": 3
-      },
-      {
-        "score": 0,
-        "out_of": 3
-      },
-      {
-        "score": 0,
-        "out_of": 3
       }
-    ]
+    ],
+    "name": "a",
+    "reg": "a",
+    "course": "a",
+    "year": "a",
+    "dept": "a"
   },
-  "abc": {
-    "password": "scrypt:32768:8:1$vWYCi6nk4h4Exd5K$a93dfe7dc1bcaf01b1ee51e7f69630d5eb98e3a7446fa42c087c847eae8786a98f5daef48be47c0d7b84eb364be03db77b47b4a85af6fcf0e937a8366fef3361",
+  "ayaan": {
+    "password": "scrypt:32768:8:1$HNyycM5EVxtmKkFX$79aadf1f3ad72e8d9accc49c87bc5bb194b80978317cd704c9e30a9e05ef0a852680873cebe3cf6b3c48cb9fe229e3e86d02706cc498f4bd09a4739801a7d48b",
     "scores": [
       {
-        "score": 1,
+        "score": 3,
         "out_of": 3
       }
-    ]
+    ],
+    "name": "Ayaan Gupta",
+    "reg": "25BCE0405",
+    "course": "BTech CSE",
+    "year": "1",
+    "dept": "SCOPE"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "id": "a1b2c3d4",
+  "question": "Capital of France?",
+  "options": ["Berlin", "Madrid", "Paris", "Rome"],
+  "answer": "Paris",
+  "difficulty": "easy"
+}

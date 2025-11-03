@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Edit Question - Admin{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Edit Question</h3>
+  <form method="post">
+    <input class="input" name="question" value="{{ q.question }}" required>
+    <input class="input" name="opt1" value="{{ q.options[0] }}" required>
+    <input class="input" name="opt2" value="{{ q.options[1] }}" required>
+    <input class="input" name="opt3" value="{{ q.options[2] }}" required>
+    <input class="input" name="opt4" value="{{ q.options[3] }}" required>
+    <input class="input" name="answer" value="{{ q.answer }}" required>
+    <select name="difficulty" class="input">
+      <option {% if q.difficulty == 'easy' %}selected{% endif %}>easy</option>
+      <option {% if q.difficulty == 'medium' %}selected{% endif %}>medium</option>
+      <option {% if q.difficulty == 'hard' %}selected{% endif %}>hard</option>
+    </select>
+    <button class="btn" type="submit">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

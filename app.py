@@ -67,30 +67,41 @@ def home():
     leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
     return render_template('index.html', leaderboard=leader[:5])
 
-# Signup / Login (Client)
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     if request.method == 'POST':
-        users = read_json(DATA_USERS)
-        uname = request.form['username'].strip()
-        pwd = request.form['password']
+        try:
+            users = read_json(DATA_USERS)
+            uname = request.form['username'].strip()
+            pwd = request.form['password']
+            name = request.form['name']
+            reg = request.form['reg']
+            course = request.form['course']
+            year = request.form['year']
+            dept = request.form['dept']
+        except KeyError as e:
+            flash(f"Missing field: {e}", "danger")
+            return redirect(url_for('signup'))
+
         if not uname or uname in users:
             flash('Username invalid or taken', 'danger')
             return redirect(url_for('signup'))
+
         users[uname] = {
             'password': generate_password_hash(pwd),
             'scores': [],
-            'name': request.form['name'],
-            'roll': request.form['roll'],
-            'reg': request.form['reg'],
-            'course': request.form['course'],
-            'year': request.form['year'],
-            'dept': request.form['dept']
+            'name': name,
+            'reg': reg,
+            'course': course,
+            'year': year,
+            'dept': dept
         }
         write_json(DATA_USERS, users)
         flash('Account created. Please login.', 'success')
         return redirect(url_for('login'))
+
     return render_template('signup.html')
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -259,30 +270,31 @@ def admin_delete(qid):
     flash('Deleted', 'info')
     return redirect(url_for('admin_panel'))
 
-@app.route('/admin_edit/<int:qid>', methods=['GET','POST'])
-def admin_edit(qid):
-    if not session.get('admin'):
-        return redirect(url_for('admin_login'))
-    data = ensure_question_ids(DATA_Q)
-    item = next((q for q in data if int(q.get('id', 0)) == int(qid)), None)
-    if not item:
+@app.route('/admin/edit/<qid>', methods=['GET', 'POST'])
+
+def edit_question(qid):
+    questions = ensure_question_ids(DATA_Q)
+    q = next((q for q in questions if q['id'] == qid), None)
+    if not q:
         flash('Question not found', 'danger')
         return redirect(url_for('admin_panel'))
+
     if request.method == 'POST':
-        item['question'] = request.form.get('question','').strip()
-        item['options'] = [
-            request.form.get('opt1','').strip(),
-            request.form.get('opt2','').strip(),
-            request.form.get('opt3','').strip(),
-            request.form.get('opt4','').strip()
+        q['question'] = request.form['question']
+        q['options'] = [
+            request.form['opt1'],
+            request.form['opt2'],
+            request.form['opt3'],
+            request.form['opt4']
         ]
-        item['answer'] = request.form.get('answer','').strip()
-        item['difficulty'] = request.form.get('difficulty','easy')
-        write_json(DATA_Q, data)
-        flash('Updated', 'success')
+        q['answer'] = request.form['answer']
+        q['difficulty'] = request.form['difficulty']
+        write_json(DATA_Q, questions)
+        flash('Question updated.', 'success')
         return redirect(url_for('admin_panel'))
-    # GET - render admin page with the item to edit
-    return render_template('admin.html', edit=item, questions=data)
+
+    return render_template('edit_question.html', q=q)
+
 
 # Simple leaderboard API
 @app.route('/leaderboard')
@@ -306,7 +318,12 @@ def recover():
         return redirect(url_for('login'))
     return render_template('recover.html')
 
-# Run
+
+@app.route('/questions')
+def view_questions():
+    all_q = ensure_question_ids(DATA_Q)
+    return render_template('questions.html', questions=all_q)
+
 if __name__ == '__main__':
     # ensure question ids exist at startup
     ensure_question_ids(DATA_Q)

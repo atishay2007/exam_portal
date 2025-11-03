@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}All Questions - VIT Portal{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Question Bank</h3>
+  {% if questions %}
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="text-align:left;color:#6c757d;font-size:0.9rem">
+          <th style="padding:8px">Question</th>
+          <th style="padding:8px">Options</th>
+          <th style="padding:8px">Answer</th>
+          <th style="padding:8px">Difficulty</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for q in questions %}
+          <tr>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.question }}</td>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.options|join(', ') }}</td>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.answer }}</td>
+            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.difficulty }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="small">No questions found.</p>
+  {% endif %}
+</div>
+{% endblock %}
