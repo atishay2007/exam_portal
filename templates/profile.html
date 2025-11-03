@@ -17,13 +17,16 @@
   <div class="card" style="margin-top:20px;padding:20px;text-align:center;background:#f8f9fa;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1)">
     <h4 style="margin-bottom:10px;color:#007bff">Your Quiz Performance</h4>
       {% if scores %}
-        <ul style="list-style:none;padding-left:0;font-size:0.95rem">
-          {% for s in scores %}
-            <li style="margin:6px 0">
-              ✅ Scored <strong>{{ s.score }}</strong> out of <strong>{{ s.out_of }}</strong>
-            </li>
-          {% endfor %}
-        </ul>
+          <ul style="list-style:none;padding-left:0;font-size:0.95rem">
+            {% for s in scores %}
+              <li style="margin:6px 0">
+                ✅ Scored <strong>{{ s.score }}</strong> out of <strong>{{ s.out_of }}</strong>
+                {% if s.timestamp %}
+                  <br><span class="small" style="color:#666">🕒 {{ s.timestamp }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
       {% else %}
         <p class="small">No quizzes taken yet. Ready to start?</p>
       {% endif %}

@@ -188,7 +188,8 @@ def quiz():
     progress = int((idx / len(qlist)) * 100)
     return render_template('quiz.html', q=question, idx=idx, total=len(qlist), progress=progress, per_q=quiz_data['per_q'])
 
-# Result and review store scores
+from datetime import datetime
+
 @app.route('/result')
 def result():
     if 'user' not in session or 'quiz' not in session:
@@ -205,16 +206,23 @@ def result():
         if ok:
             score += 1
         review.append({'question': q['question'], 'options': q.get('options', []), 'your': user_ans, 'correct': correct, 'ok': ok})
+
     # store in users.json and leaderboard.json
     users = read_json(DATA_USERS)
     uname = session.get('user')
     if uname and uname in users:
-        users[uname].setdefault('scores', []).append({'score':score, 'out_of': len(qlist)})
+        users[uname].setdefault('scores', []).append({
+            'score': score,
+            'out_of': len(qlist),
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        })
         write_json(DATA_USERS, users)
+
     leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
     leader.append({'user': uname, 'score': score, 'out_of': len(qlist)})
     leader = sorted(leader, key=lambda x: x['score'], reverse=True)
     write_json(DATA_LEADER, leader)
+
     return render_template('result.html', score=score, out_of=len(qlist), review=review)
 
 # ---------- Admin: login + CRUD ----------
