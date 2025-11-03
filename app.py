@@ -239,6 +239,17 @@ def quiz_review():
         status.append({'index': i, 'label': label})
 
     return render_template('quiz_review.html', status=status)
+@app.route('/quiz_jump', methods=['POST'])
+def quiz_jump():
+    if 'quiz' not in session:
+        return redirect(url_for('quiz_start'))
+    idx = int(request.form.get('index', 0))
+    session['quiz']['current'] = idx
+    return redirect(url_for('quiz'))
+
+@app.route('/quiz_submit', methods=['POST'])
+def quiz_submit():
+    return redirect(url_for('result'))
 
 from datetime import datetime
 
