@@ -1,8 +1,39 @@
 {% extends "base.html" %}
+{% block title %}Home - VIT Exam Portal{% endblock %}
 {% block content %}
-<div class="card">
-  <h2>Welcome to VIT Exam Portal</h2>
-  <p>Start your quiz by clicking below.</p>
-  <a class="btn" href="{{ url_for('quiz_start') }}">Start Quiz</a>
+
+<!-- Banner -->
+<div class="banner" style="text-align:center;margin-top:20px">
+  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" style="height:64px"> 
+  <h2>VIT Exam Portal</h2>
+  <p class="small">Clean interface for quizzes — admin and client access</p>
 </div>
+
+<!-- Cards -->
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:30px">
+  <div class="card" style="width:280px">
+    <h3>Take a Quiz</h3>
+    <p class="small">Login or create an account to start.</p>
+    <a class="btn" href="{{ url_for('login') }}">Student Login</a>
+    <a class="btn" href="{{ url_for('signup') }}" style="background:#28a745">Sign up</a>
+  </div>
+
+  <div class="card" style="width:280px">
+    <h3>Faculty</h3>
+    <p class="small">Manage question bank and view leaderboard.</p>
+    <a class="btn" href="{{ url_for('admin_login') }}" style="background:#343a40">Faculty Login</a>
+  </div>
+
+  <div class="card" style="width:280px">
+    <h3>Top Scores</h3>
+    <ul style="list-style:none;padding-left:0">
+      {% for e in leaderboard %}
+        <li class="small"><strong>{{ e.user }}</strong> — {{ e.score }}</li>
+      {% else %}
+        <li class="small">No scores yet</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% endblock %}

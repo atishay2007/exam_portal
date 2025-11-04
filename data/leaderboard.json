@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "user": "atishay",
+    "score": 3,
+    "out_of": 3
+  },
+  {
+    "user": "Nikhil",
+    "score": 3,
+    "out_of": 3
+  },
+  {
+    "user": "atishay",
+    "score": 2,
+    "out_of": 3
+  },
+  {
+    "user": "atishay",
+    "score": 1,
+    "out_of": 3
+  },
+  {
+    "user": "atishay",
+    "score": 1,
+    "out_of": 3
+  }
+]

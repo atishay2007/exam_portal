@@ -23,5 +23,55 @@
     "course": "BTech CSE",
     "year": "1",
     "dept": "SCOPE"
+  },
+  "atishay": {
+    "password": "scrypt:32768:8:1$aw5pnBU6HNFqXk7h$7384f7cb1293b85e89af638833099d4539cb093146b75578e2595d20b226cb86edd8eb4238c19799f38afd02081e09e8d170ffdba62f3b0a4c5e826eaa281cb4",
+    "scores": [
+      {
+        "score": 3,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:17:17"
+      },
+      {
+        "score": 2,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:31:14"
+      },
+      {
+        "score": 1,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:34:25"
+      },
+      {
+        "score": 1,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:36:42"
+      },
+      {
+        "score": 1,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:39:43"
+      }
+    ],
+    "name": "Atishay Jain",
+    "reg": "25BCE0352",
+    "course": "BTech CSE",
+    "year": "1",
+    "dept": "SCOPE"
+  },
+  "Nikhil": {
+    "password": "scrypt:32768:8:1$erRZTBNudnKTmLa0$467cf3b2f7775e2a5a9ac2d9a01da8b8c03997dd685f78e402b860e1819d36ad2ecede6a68ffefa76a7efea5ef3b0421000e4a530c29bd2c5a1b5aaf3354e088",
+    "scores": [
+      {
+        "score": 3,
+        "out_of": 3,
+        "timestamp": "2025-11-04 10:25:51"
+      }
+    ],
+    "name": "Nikhil Garg",
+    "reg": "25BCE0399",
+    "course": "B.Tech CSE",
+    "year": "1",
+    "dept": "SCOPE"
   }
 }

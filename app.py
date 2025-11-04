@@ -64,8 +64,10 @@ def find_question_by_id(qid):
 # ---------- Routes ----------
 @app.route('/')
 def home():
-    leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
-    return render_template('index.html', leaderboard=leader[:5])
+    with open('data/leaderboard.json') as f:
+        leaderboard = json.load(f)
+    leaderboard = sorted(leaderboard, key=lambda x: x['score'], reverse=True)[:10]
+    return render_template('home.html', leaderboard=leaderboard)
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
@@ -250,30 +252,58 @@ def quiz_jump():
 @app.route('/quiz_submit', methods=['POST'])
 def quiz_submit():
     return redirect(url_for('result'))
+def update_leaderboard(username, score):
+    with open('data/leaderboard.json', 'r') as f:
+        data = json.load(f)
+
+    data.append({'user': username, 'score': score})
+
+    with open('data/leaderboard.json', 'w') as f:
+        json.dump(data, f, indent=2)
+
 
 from datetime import datetime
+import os
+import json
+
+def read_json(path):
+    with open(path) as f:
+        return json.load(f)
+
+def write_json(path, data):
+    with open(path, 'w') as f:
+        json.dump(data, f, indent=2)
 
 @app.route('/result')
 def result():
     if 'user' not in session or 'quiz' not in session:
         return redirect(url_for('home'))
+
     quiz = session.pop('quiz')
     qlist = quiz['questions']
     answers = quiz['answers']
     score = 0
     review = []
+
     for i, q in enumerate(qlist):
         user_ans = answers[i] if i < len(answers) else ''
-        correct = q.get('answer','')
+        correct = q.get('answer', '')
         ok = (user_ans == correct)
         if ok:
             score += 1
-        review.append({'question': q['question'], 'options': q.get('options', []), 'your': user_ans, 'correct': correct, 'ok': ok})
-    
-    # store in users.json and leaderboard.json
+        review.append({
+            'question': q['question'],
+            'options': q.get('options', []),
+            'your': user_ans,
+            'correct': correct,
+            'ok': ok
+        })
+
+    # Update users.json
     users = read_json(DATA_USERS)
-    uname = session.get('user')
-    if uname and uname in users:
+    uname = session.get('user') or 'Anonymous'
+
+    if uname in users:
         users[uname].setdefault('scores', []).append({
             'score': score,
             'out_of': len(qlist),
@@ -281,14 +311,14 @@ def result():
         })
         write_json(DATA_USERS, users)
 
-    # Save to leaderboard.json
+    # Update leaderboard.json
     leaderboard_path = 'data/leaderboard.json'
-    if os.path.exists(leaderboard_path):
+    try:
         leaderboard = read_json(leaderboard_path)
-    else:
+    except Exception:
         leaderboard = []
 
-    leaderboard.append({'user': session['user'], 'score': score, 'out_of': len(qlist)})
+    leaderboard.append({'user': uname, 'score': score, 'out_of': len(qlist)})
     leaderboard = sorted(leaderboard, key=lambda x: x['score'], reverse=True)[:10]
     write_json(leaderboard_path, leaderboard)
 
@@ -378,6 +408,7 @@ def edit_question(qid):
 def leaderboard():
     leader = read_json(DATA_LEADER) if os.path.exists(DATA_LEADER) else []
     return jsonify(leader[:10])
+
 
 @app.route('/recover', methods=['GET', 'POST'])
 def recover():
