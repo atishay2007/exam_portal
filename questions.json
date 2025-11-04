@@ -1,38 +1,107 @@
 [
   {
-    "question": "Capital of France?",
-    "options": [
-      "Berlin",
-      "Madrid",
-      "Paris",
-      "Rome"
-    ],
-    "answer": "Paris",
-    "difficulty": "easy",
-    "id": 581307
+    "id": 100001,
+    "question": "Which keyword is used to define a function in Python?",
+    "options": ["func", "define", "def", "function"],
+    "answer": "def",
+    "difficulty": "easy"
   },
   {
-    "question": "What is the square root of 16?",
-    "options": [
-      "2",
-      "4",
-      "6",
-      "8"
-    ],
-    "answer": "4",
-    "difficulty": "medium",
-    "id": 766049
+    "id": 100002,
+    "question": "What is the output of: print(type([]))?",
+    "options": ["<class 'list'>", "<class 'tuple'>", "<class 'dict'>", "<class 'set'>"],
+    "answer": "<class 'list'>",
+    "difficulty": "easy"
   },
   {
-    "id": 309764,
-    "question": "What is 2 x 2?",
-    "options": [
-      "1",
-      "2",
-      "3",
-      "4"
-    ],
-    "answer": "4",
+    "id": 100003,
+    "question": "Which of the following is immutable?",
+    "options": ["list", "set", "tuple", "dict"],
+    "answer": "tuple",
+    "difficulty": "medium"
+  },
+  {
+    "id": 100004,
+    "question": "What does the 'len()' function do?",
+    "options": ["Returns the length", "Returns the type", "Returns the value", "Returns the index"],
+    "answer": "Returns the length",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100005,
+    "question": "Which operator is used for exponentiation?",
+    "options": ["^", "**", "//", "%%"],
+    "answer": "**",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100006,
+    "question": "What is the output of: bool(0)?",
+    "options": ["True", "False", "None", "0"],
+    "answer": "False",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100007,
+    "question": "Which method adds an item to a list?",
+    "options": ["add()", "append()", "insert()", "extend()"],
+    "answer": "append()",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100008,
+    "question": "What is the result of: 3 == '3'?",
+    "options": ["True", "False", "Error", "None"],
+    "answer": "False",
+    "difficulty": "medium"
+  },
+  {
+    "id": 100009,
+    "question": "Which of these is a Python tuple?",
+    "options": ["[1, 2]", "{1, 2}", "(1, 2)", "<1, 2>"],
+    "answer": "(1, 2)",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100010,
+    "question": "What does 'break' do in a loop?",
+    "options": ["Skips iteration", "Ends loop", "Restarts loop", "Continues loop"],
+    "answer": "Ends loop",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100011,
+    "question": "Which of these is not a valid Python data type?",
+    "options": ["int", "float", "real", "str"],
+    "answer": "real",
+    "difficulty": "medium"
+  },
+  {
+    "id": 100012,
+    "question": "What is the output of: print(2 ** 3)?",
+    "options": ["6", "8", "9", "5"],
+    "answer": "8",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100013,
+    "question": "Which keyword is used to handle exceptions?",
+    "options": ["try", "catch", "handle", "except"],
+    "answer": "except",
+    "difficulty": "medium"
+  },
+  {
+    "id": 100014,
+    "question": "What is the output of: print('Hello' + 'World')?",
+    "options": ["HelloWorld", "Hello World", "Hello+World", "Error"],
+    "answer": "HelloWorld",
+    "difficulty": "easy"
+  },
+  {
+    "id": 100015,
+    "question": "Which function converts a string to an integer?",
+    "options": ["str()", "int()", "float()", "bool()"],
+    "answer": "int()",
     "difficulty": "easy"
   }
 ]
