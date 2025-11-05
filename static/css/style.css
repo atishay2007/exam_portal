@@ -49,3 +49,103 @@ body{font-family:Inter, system-ui, Arial; background:var(--bg); margin:0;}
 .card ul li:last-child {
   border-bottom: none;
 }
+/* === Fix overlap: push login boxes down === */
+.hero-section {
+  margin-bottom: 60px; /* Adds space between heading and login cards */
+}
+
+.login-section {
+  margin-top: 80px; /* Pushes login boxes lower */
+}
+
+/* === Improve visibility of "VIT Exam Portal" === */
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00eaff; /* Brighter neon cyan */
+  text-shadow: 0 0 15px rgba(0, 234, 255, 0.8), 0 0 30px rgba(0, 234, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #cdd9ff;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+/* === Optional: subtle fade-down effect for login boxes === */
+.login-section {
+  animation: slideDown 0.6s ease both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.signup-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  padding: 2px;
+  background: linear-gradient(120deg, #00eaff, #3b82f6, #00eaff);
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glowBorder 6s linear infinite;
+  pointer-events: none; /* ✅ allows clicking/typing */
+}
+/* ===== Custom Select (Dropdown) - Dark Themed ===== */
+.select-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.classy-select {
+  appearance: none;
+  background: rgba(17, 25, 40, 0.6);
+  color: #e2e8f0;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  padding: 12px 40px 12px 16px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.classy-select:focus {
+  border-color: #00ffff;
+  background: rgba(17, 25, 40, 0.75);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.4);
+  outline: none;
+}
+
+.select-wrapper::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #00ffff;
+  pointer-events: none;
+  font-size: 1.2rem;
+}
+
+/* ===== Dropdown Menu Styling (Browser-Supported Hack) ===== */
+.classy-select option {
+  background: #0d1117;
+  color: #e2e8f0;
+  border: none;
+}
+
+.classy-select option:hover,
+.classy-select option:checked {
+  background: rgba(0, 255, 255, 0.15);
+  color: #00ffff;
+}

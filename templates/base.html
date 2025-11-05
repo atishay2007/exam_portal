@@ -1,46 +1,237 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}VIT Exam Portal{% endblock %}</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Static Files -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/theme.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
+
+  <style>
+    /* === Glassmorphism + Neon Theme === */
+    :root {
+      --bg-gradient: radial-gradient(circle at top left, #0d1b2a, #000814);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 255, 255, 0.3);
+      --primary: #00b4d8;
+      --accent: #7b2ff7;
+      --text: #e0e8ff;
+      --muted: #a3a3a3;
+      --radius: 16px;
+      --shadow: 0 8px 25px rgba(0,0,0,0.4);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 20;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--primary);
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent);
+    }
+
+    /* === Navbar === */
+    nav {
+      background: var(--glass-bg);
+      border-bottom: 1px solid var(--border-glow);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav img {
+      height: 34px;
+      filter: drop-shadow(0 0 6px var(--primary));
+    }
+
+    nav strong {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 0 10px var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* === Container === */
+    .container {
+      flex: 1;
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: var(--glass-bg);
+      border: 1px solid var(--border-glow);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Flash Messages */
+    .card {
+      background: rgba(0, 255, 255, 0.1);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      border-radius: var(--radius);
+      color: var(--text);
+      font-weight: 500;
+      box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    }
+
+    /* === Footer === */
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: transparent;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    /* === Neon Hover Glow === */
+    button, .btn {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    button:hover, .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px var(--accent);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .container {
+        margin: 25px;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav style="display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#007bff;color:white">
+  <nav>
     <div style="display:flex;align-items:center;gap:10px">
-      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" style="height:28px">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
       <strong>VIT Exam Portal</strong>
     </div>
-    <div style="display:flex;gap:20px">
-      <a href="{{ url_for('home') }}" style="color:white;text-decoration:none">Home</a>
-      <a href="{{ url_for('signup') }}" style="color:white;text-decoration:none">Student</a>
-      <a href="{{ url_for('admin_login') }}" style="color:white;text-decoration:none">Faculty</a>
-      <a href="{{ url_for('profile') }}" style="color:white;text-decoration:none">Profile</a>
+    <div class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('login') }}">Student</a>
+      <a href="{{ url_for('admin_login') }}">Faculty</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
     </div>
   </nav>
 
-  <!-- Main container -->
-  <div class="container" style="padding:20px">
+  <!-- Main Content -->
+  <div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for cat, msg in messages %}
-          <div class="card small">{{ msg }}</div>
+          <div class="card">{{ msg }}</div>
         {% endfor %}
       {% endif %}
     {% endwith %}
 
     {% block content %}{% endblock %}
-
-    <!-- Footer -->
-    <footer style="text-align:center;padding:20px 0;font-size:0.9rem;color:#888">
-      Made by Team Aloo Bhujia • Simple exam portal for demo
-    </footer>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    Made with 💙 by <span>Team Aloo Bhujia</span> • Futuristic exam portal for demo
+  </footer>
 
 </body>
 </html>

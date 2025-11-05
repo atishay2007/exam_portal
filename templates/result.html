@@ -1,25 +1,243 @@
 {% extends "base.html" %}
-{% block title %}Result - VIT Portal{% endblock %}
+{% block title %}Quiz Result - VIT Portal{% endblock %}
+
 {% block content %}
-<div class="card">
-  <h3>Result</h3>
-  <p class="small">You scored <strong>{{ score }}</strong> out of {{ out_of }}</p>
-  <div style="display:flex;gap:8px;margin-top:10px">
-    <a class="btn" href="{{ url_for('profile') }}">Go to Profile</a>
-    <a class="btn" href="{{ url_for('quiz_start') }}" style="background:#20c997">Take another</a>
-    <a class="btn" href="{{ url_for('home') }}" style="background:#6c757d">Home</a>
+<div class="result-container">
+  <div class="result-card glass-card" id="result-card">
+    <h2 class="result-title">🏆 Quiz Result</h2>
+    <p class="result-subtext">Here's how you performed in your recent quiz.</p>
+
+    {% set percent = (score / out_of * 100) | round(1) %}
+    <div class="score-box">
+      <h3 id="score-display">
+        <i class="fas fa-chart-bar"></i> Score: {{ score }} / {{ out_of }}
+      </h3>
+      <p class="small">Percentage: <strong>{{ percent }}%</strong></p>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ percent }}%;"></div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a class="btn" href="{{ url_for('profile') }}">
+        <i class="fas fa-user"></i> Profile
+      </a>
+      <a class="btn btn-green" href="{{ url_for('quiz_start') }}">
+        <i class="fas fa-redo"></i> Retry Quiz
+      </a>
+      <a class="btn btn-grey" href="{{ url_for('home') }}">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+  </div>
+
+  <div class="review-card glass-card" id="review-card">
+    <h3><i class="fas fa-clipboard-check"></i> Review Answers</h3>
+    {% for r in review %}
+      <div class="review-item {% if r.ok %}correct{% else %}incorrect{% endif %}">
+        <div class="review-header">
+          <strong>{{ r.question }}</strong>
+          {% if r.ok %}
+            <span class="correct-label"><i class="fas fa-check-circle"></i> Correct</span>
+          {% else %}
+            <span class="incorrect-label"><i class="fas fa-times-circle"></i> Incorrect</span>
+          {% endif %}
+        </div>
+        <div class="review-details">
+          <div><i class="fas fa-user-edit"></i> Your answer: 
+            <span class="your-answer {% if r.ok %}ok{% else %}no{% endif %}">{{ r.your or '(no answer)' }}</span>
+          </div>
+          <div><i class="fas fa-check"></i> Correct answer: 
+            <span class="correct-answer">{{ r.correct }}</span>
+          </div>
+          <div><i class="fas fa-list-ul"></i> Options: 
+            <span class="options">{{ r.options|join(', ') }}</span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 </div>
 
-<div class="card" style="margin-top:12px">
-  <h4>Review</h4>
-  {% for r in review %}
-    <div style="margin-bottom:10px;padding:10px;border-radius:6px;background: {% if r.ok %}#e6ffed{% else %}#ffe6e6{% endif %}">
-      <div><strong>{{ r.question }}</strong></div>
-      <div class="small">Your answer: {{ r.your or '(no answer)' }} — Correct: {{ r.correct }}</div>
-      <div class="small">Options: {{ r.options|join(', ') }}</div>
-    </div>
-  {% endfor %}
-</div>
-{% endblock %}
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const resultCard = document.getElementById("result-card");
+  const reviewCard = document.getElementById("review-card");
+  const scoreDisplay = document.getElementById("score-display");
 
+  resultCard.classList.add("fade-in");
+  setTimeout(() => reviewCard.classList.add("fade-in"), 500);
+
+  const percent = {{ (score / out_of * 100) | round(1) }};
+  if (percent >= 70) {
+    scoreDisplay.style.animation = "glowPulse 1.5s infinite alternate";
+
+    const duration = 2 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 5,
+        spread: 120,
+        startVelocity: 50,
+        gravity: 0.8,
+        origin: { y: 1.2 }, // from bottom
+        colors: ['#00e0d1', '#6c63ff', '#007bff', '#a66cff', '#00fff2']
+      });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }
+});
+</script>
+
+<style>
+/* === Layout === */
+.result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.glass-card {
+  backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(25, 25, 25, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-radius: 18px;
+  padding: 40px;
+  width: 80%;
+  transition: all 0.8s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.glass-card.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.result-title {
+  color: #00e0d1;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.result-subtext {
+  color: #b8b8b8;
+  margin-bottom: 25px;
+}
+
+.score-box {
+  background: rgba(0, 224, 209, 0.1);
+  border: 1px solid rgba(0, 224, 209, 0.4);
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+}
+
+#score-display {
+  color: #00e0d1;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6c63ff, #00e0d1);
+  border-radius: 8px;
+  transition: width 1s ease;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.btn {
+  background: linear-gradient(90deg, #007bff, #6c63ff);
+  padding: 12px 28px;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+  transition: 0.3s;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(0, 224, 209, 0.8);
+}
+.btn-green {
+  background: linear-gradient(90deg, #00e0d1, #20c997);
+}
+.btn-grey {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Review section */
+.review-card {
+  margin-top: 40px;
+}
+.review-card h3 {
+  color: #00e0d1;
+  margin-bottom: 20px;
+}
+.review-item {
+  margin-bottom: 16px;
+  padding: 16px 22px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.review-item.correct {
+  background: rgba(0, 224, 209, 0.12);
+}
+.review-item.incorrect {
+  background: rgba(255, 99, 99, 0.12);
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  color: #e9ecef;
+  font-weight: 600;
+}
+.correct-label {
+  color: #00e0d1;
+}
+.incorrect-label {
+  color: #ff6b6b;
+}
+.review-details {
+  color: #b8b8b8;
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.your-answer.ok { color: #00e0d1; }
+.your-answer.no { color: #ff6b6b; }
+.correct-answer { color: #00e0d1; }
+.options { color: #e9ecef; }
+
+/* Animations */
+@keyframes glowPulse {
+  from { text-shadow: 0 0 8px #6c63ff, 0 0 16px #00e0d1; }
+  to { text-shadow: 0 0 24px #6c63ff, 0 0 48px #00e0d1; }
+}
+</style>
+{% endblock %}

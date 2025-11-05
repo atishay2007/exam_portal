@@ -1,24 +1,111 @@
 {% extends "base.html" %}
+{% block title %}Start Quiz - VIT Portal{% endblock %}
 {% block content %}
-<div class="card">
-  <h3>Start Quiz</h3>
-  <form method="post">
-    <div class="form-row">
-      <label class="small">Difficulty</label>
-      <select name="difficulty" class="input">
+<div class="glass-card" style="
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 16px;
+  backdrop-filter: blur(16px) saturate(160%);
+  background: rgba(25, 25, 25, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  text-align: center;">
+
+  <h2 style="color: #00e0d1; margin-bottom: 25px;">🧠 Start Your Quiz</h2>
+  <p class="small" style="color: #b8b8b8; margin-bottom: 25px;">
+    Choose your quiz settings and get ready to test your skills!
+  </p>
+
+  <form method="post" action="{{ url_for('quiz_start') }}" style="width: 100%; text-align: left;">
+    
+    <!-- Difficulty -->
+    <div class="form-row" style="margin-bottom: 18px;">
+      <label class="small" style="display: flex; align-items: center; gap: 8px; color: #00e0d1; margin-bottom: 6px;">
+        <i class="fas fa-signal"></i> Difficulty
+      </label>
+      <select name="difficulty" class="input" style="
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(40, 40, 40, 0.7);
+        border: 1px solid rgba(0,224,209,0.4);
+        color: #e9ecef;
+        font-size: 0.95rem;
+        outline: none;
+        appearance: none;">
         <option value="any">Any</option>
-        {% for d in difficulties %}<option value="{{ d }}">{{ d }}</option>{% endfor %}
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
       </select>
     </div>
-    <div class="form-row">
-      <label class="small">Number of Questions</label>
-      <input class="input" name="count" type="number" min="1" max="20" value="5">
+
+    <!-- Number of Questions -->
+    <div class="form-row" style="margin-bottom: 18px;">
+      <label class="small" style="display: flex; align-items: center; gap: 8px; color: #00e0d1; margin-bottom: 6px;">
+        <i class="fas fa-list-ol"></i> Number of Questions
+      </label>
+      <input class="input" name="count" type="number" min="1" max="20" value="5" style="
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(40, 40, 40, 0.7);
+        border: 1px solid rgba(0,224,209,0.4);
+        color: #e9ecef;
+        font-size: 0.95rem;
+        outline: none;">
     </div>
-    <div class="form-row">
-      <label class="small">Seconds per Question</label>
-      <input class="input" name="per_q" type="number" min="10" max="300" value="30">
+
+    <!-- Seconds per Question -->
+    <div class="form-row" style="margin-bottom: 25px;">
+      <label class="small" style="display: flex; align-items: center; gap: 8px; color: #00e0d1; margin-bottom: 6px;">
+        <i class="fas fa-clock"></i> Seconds per Question
+      </label>
+      <input class="input" name="per_q" type="number" min="10" max="300" value="30" style="
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(40, 40, 40, 0.7);
+        border: 1px solid rgba(0,224,209,0.4);
+        color: #e9ecef;
+        font-size: 0.95rem;
+        outline: none;">
     </div>
-    <button class="btn" type="submit">Start</button>
+
+    <div style="text-align: center;">
+      <button class="btn" type="submit" style="
+        background: linear-gradient(90deg, #00e0d1, #007bff);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0,224,209,0.6);
+        transition: all 0.3s ease;">
+        Start Quiz 🚀
+      </button>
+    </div>
   </form>
 </div>
+
+<style>
+/* Dark dropdown theme */
+select.input option {
+  background: rgba(30, 30, 30, 0.95);
+  color: #e9ecef;
+}
+select.input:hover, input.input:hover {
+  border-color: #00e0d1;
+}
+select.input:focus, input.input:focus {
+  box-shadow: 0 0 6px rgba(0,224,209,0.6);
+  border-color: #00e0d1;
+}
+input[type=number]::-webkit-inner-spin-button {
+  filter: invert(1);
+}
+</style>
 {% endblock %}

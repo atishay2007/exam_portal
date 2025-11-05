@@ -1,41 +1,208 @@
 {% extends "base.html" %}
 {% block title %}Profile - VIT Portal{% endblock %}
 {% block content %}
-<div class="card">
-  <h3>Welcome, {{ user.name }}</h3>
-  <p class="small">Here’s your profile dashboard:</p>
 
-  <div style="margin-top: 10px;">
-    <p><strong>Username:</strong> {{ username }}</p>
-    <p><strong>Full Name:</strong> {{ user.name }}</p>
-    <p><strong>Registration Number:</strong> {{ user.reg }}</p>
-    <p><strong>Course:</strong> {{ user.course }}</p>
-    <p><strong>Year:</strong> {{ user.year }}</p>
-    <p><strong>Department:</strong> {{ user.dept }}</p>
-  </div>
+<div class="profile-wrapper">
+  <div class="profile-card">
+    <h1>Welcome, {{ user.name }}</h1>
+    <p class="subtitle">Your personalized student dashboard</p>
 
-  <div class="card" style="margin-top:20px;padding:20px;text-align:center;background:#f8f9fa;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1)">
-    <h4 style="margin-bottom:10px;color:#007bff">Your Quiz Performance</h4>
+    <!-- Profile Info -->
+    <div class="info-section">
+      <div class="info-item"><strong>Username:</strong> {{ username }}</div>
+      <div class="info-item"><strong>Registration Number:</strong> {{ user.reg }}</div>
+      <div class="info-item"><strong>Course:</strong> {{ user.course }}</div>
+      <div class="info-item"><strong>Year:</strong> {{ user.year }}</div>
+      <div class="info-item"><strong>Department:</strong> {{ user.dept }}</div>
+    </div>
+
+    <!-- Quiz Performance -->
+    <div class="glass-subcard">
+      <h2>🎯 Your Quiz Performance</h2>
       {% if scores %}
-          <ul style="list-style:none;padding-left:0;font-size:0.95rem">
-            {% for s in scores %}
-              <li style="margin:6px 0">
-                ✅ Scored <strong>{{ s.score }}</strong> out of <strong>{{ s.out_of }}</strong>
-                {% if s.timestamp %}
-                  <br><span class="small" style="color:#666">🕒 {{ s.timestamp }}</span>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
+        <ul class="score-list">
+          {% for s in scores %}
+            <li>
+              <span>✅ Scored <strong>{{ s.score }}</strong> out of <strong>{{ s.out_of }}</strong></span>
+              {% if s.timestamp %}
+                <br><small class="timestamp">🕒 {{ s.timestamp }}</small>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
       {% else %}
         <p class="small">No quizzes taken yet. Ready to start?</p>
       {% endif %}
-    <a class="btn" href="{{ url_for('quiz_start') }}" style="margin-top:12px">Start New Quiz</a>
-  </div>
+      <a class="btn-primary" href="{{ url_for('quiz_start') }}">Start New Quiz</a>
+    </div>
 
-
-  <div style="margin-top: 20px;">
-    <a class="btn" href="{{ url_for('logout') }}" style="background:#dc3545">Logout</a>
+    <!-- Logout -->
+    <div class="logout-section">
+      <a class="btn-danger" href="{{ url_for('logout') }}">Logout</a>
+    </div>
   </div>
 </div>
+
+<style>
+/* ===== Layout ===== */
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 20px;
+}
+
+.profile-card {
+  position: relative;
+  width: 900px;
+  background: rgba(17, 25, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 25px;
+  padding: 50px 60px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 255, 255, 0.12);
+  transition: all 0.3s ease;
+}
+
+.profile-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  padding: 2px;
+  background: linear-gradient(120deg, #00ffff, #007bff, #00ffff);
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glowBorder 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes glowBorder {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ===== Typography ===== */
+.profile-card h1 {
+  text-align: center;
+  color: #00ffff;
+  font-size: 2.2rem;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #a1a1aa;
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+
+/* ===== Profile Info ===== */
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 40px;
+  margin-bottom: 40px;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.info-item strong {
+  color: #00ffff;
+  font-weight: 600;
+}
+
+/* ===== Sub Card (Performance) ===== */
+.glass-subcard {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.glass-subcard h2 {
+  color: #00ffff;
+  font-size: 1.4rem;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  margin-bottom: 20px;
+}
+
+.score-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+  color: #e2e8f0;
+}
+
+.score-list li {
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.timestamp {
+  color: #a1a1aa;
+  font-size: 0.85rem;
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(90deg, #00ffff, #007bff);
+  color: #000;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #00bfff, #00e6e6);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.btn-danger {
+  display: inline-block;
+  text-decoration: none;
+  background: #dc3545;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: #ff4757;
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
+}
+
+/* ===== Logout Section ===== */
+.logout-section {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .profile-card {
+    width: 95%;
+    padding: 40px 25px;
+  }
+  .info-section {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 {% endblock %}

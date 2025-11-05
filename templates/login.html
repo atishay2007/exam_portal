@@ -1,23 +1,196 @@
 {% extends "base.html" %}
 {% block title %}Login - VIT Portal{% endblock %}
 {% block content %}
-<div class="card">
-  <h3>Student Login</h3>
-  <form method="post">
-    <div class="form-row">
-      <input class="input" name="username" placeholder="Username" required>
-    </div>
-    <div class="form-row">
-      <input class="input" name="password" type="password" placeholder="Password" required>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn" type="submit">Login</button>
-      <a class="btn" href="{{ url_for('signup') }}" style="background:#20c997">Create account</a>
-    </div>
-  </form>
-  <p class="small" style="margin-top:10px">
-  Forgot your password? <a href="{{ url_for('recover') }}">Reset it here</a>
-  </p>
-  <p class="small" style="margin-top:10px">If you are admin, click Admin on the top nav.</p>
+
+<div class="login-wrapper">
+  <div class="login-card">
+    <h1>Student Login</h1>
+    <p class="subtitle">Welcome back! Please log in to your account</p>
+
+    <form method="post" class="login-form">
+      <input class="input full" name="username" placeholder="Username" required>
+      <input class="input full" name="password" type="password" placeholder="Password" required>
+
+      <div class="button-row">
+        <button class="btn-submit" type="submit">Login</button>
+        <a class="btn-alt" href="{{ url_for('signup') }}">Create Account</a>
+      </div>
+    </form>
+
+    <p class="small-text">
+      Forgot your password? <a href="{{ url_for('recover') }}">Reset it here</a>
+    </p>
+    <p class="small-text">If you are a Faculty, click <strong>Faculty</strong> on the top nav.</p>
+  </div>
 </div>
+
+<style>
+  /* ===== Page Layout ===== */
+  .login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 20px 100px 20px;
+    background: transparent;
+  }
+
+  /* ===== Glass Card ===== */
+  .login-card {
+    position: relative;
+    width: 650px;
+    background: rgba(17, 25, 40, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 25px;
+    padding: 60px 70px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.12);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  /* Glowing animated border */
+  .login-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    padding: 2px;
+    background: linear-gradient(120deg, #00eaff, #3b82f6, #00eaff);
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: glowBorder 6s linear infinite;
+    pointer-events: none; /* ✅ allow typing */
+  }
+
+  @keyframes glowBorder {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  .login-card h1 {
+    font-size: 2.3rem;
+    color: #00eaff;
+    text-shadow: 0 0 25px rgba(0, 234, 255, 0.6);
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #a1a1aa;
+    margin-bottom: 40px;
+  }
+
+  /* ===== Form ===== */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .input.full {
+    width: 100%;
+  }
+
+  .input:focus {
+    border-color: #00eaff;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.3);
+    outline: none;
+  }
+
+  /* ===== Buttons ===== */
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .btn-submit {
+    flex: 1;
+    background: linear-gradient(90deg, #00eaff, #3b82f6);
+    border: none;
+    color: #000;
+    padding: 14px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-submit:hover {
+    background: linear-gradient(90deg, #00b4d8, #2563eb);
+    color: #fff;
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .btn-alt {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 14px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .btn-alt:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #00eaff;
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+  }
+
+  /* ===== Footer Text ===== */
+  .small-text {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #a1a1aa;
+  }
+
+  .small-text a {
+    color: #00eaff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .small-text a:hover {
+    text-decoration: underline;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 900px) {
+    .login-card {
+      width: 90%;
+      padding: 50px 30px;
+    }
+    .button-row {
+      flex-direction: column;
+    }
+  }
+</style>
+
 {% endblock %}
+

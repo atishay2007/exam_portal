@@ -73,5 +73,145 @@
     "course": "B.Tech CSE",
     "year": "1",
     "dept": "SCOPE"
+  },
+  "ayaan_16": {
+    "password": "scrypt:32768:8:1$4s7szPFRU9aYEFim$7296d9c459ee64728d88000a93d68a61d08b1f0410ba4b7cb0a5999a3cb84aff47b24fed898eedcda97888156353c8b730ad7fa8599f5e02a46908ca78ef9e16",
+    "scores": [
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 16:25:48"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 16:36:56"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 16:39:23"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:10:45"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:30:07"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:34:06"
+      },
+      {
+        "score": 1,
+        "out_of": 1,
+        "timestamp": "2025-11-05 17:37:34"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:38:28"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:39:42"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:42:03"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:42:43"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:43:50"
+      },
+      {
+        "score": 1,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:44:05"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:46:36"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:48:41"
+      },
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:49:33"
+      },
+      {
+        "score": 1,
+        "out_of": 1,
+        "timestamp": "2025-11-05 17:49:54"
+      },
+      {
+        "score": 0,
+        "out_of": 1,
+        "timestamp": "2025-11-05 17:50:19"
+      },
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 17:54:41"
+      }
+    ],
+    "name": "Ayaan Gupta",
+    "reg": "25BCE0405",
+    "course": "B.Tech CSE",
+    "year": "1",
+    "dept": "SCOPE"
+  },
+  "harshit": {
+    "password": "scrypt:32768:8:1$ctOAZkOvou520AYs$b90d54f8cc906800165e8c3c4ba8c372ce71059d9a4508c5a036af1e23146388b7c08d9fbcb237ff7261105501bc1d94e6d75ca06f92e9516d45c0f4f747f5db",
+    "scores": [
+      {
+        "score": 0,
+        "out_of": 5,
+        "timestamp": "2025-11-05 16:53:46"
+      }
+    ],
+    "name": "harshit",
+    "reg": "harshit",
+    "course": "harshit",
+    "year": "harshit",
+    "dept": "harshit"
+  },
+  "shishimaru": {
+    "password": "scrypt:32768:8:1$ODTZC8gLRGWjM4yd$6028e20fafc83d57a160354c8c4d5e7fcae2c1105e25fa97e031c0e9cd8aaed44a87f4ec83b8b01c168b32fb157e2bc07aa5923f10bd09500d61ef35a0f6cc40",
+    "scores": [
+      {
+        "score": 5,
+        "out_of": 5,
+        "timestamp": "2025-11-05 18:03:31"
+      },
+      {
+        "score": 4,
+        "out_of": 5,
+        "timestamp": "2025-11-05 18:18:52"
+      }
+    ],
+    "name": "Aditya Prusty",
+    "reg": "25BMV0018",
+    "course": "B.Tech MECH",
+    "year": "1",
+    "dept": "SMEC"
   }
 }

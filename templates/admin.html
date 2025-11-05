@@ -1,60 +1,316 @@
 {% extends "base.html" %}
 {% block title %}Admin Panel - VIT Portal{% endblock %}
 {% block content %}
-<div class="card">
-  <h3>Admin Panel</h3>
-  <p class="small">Add new question to the bank</p>
-  <form method="post" action="{{ url_for('admin_add') }}">
-    <div class="form-row">
-      <input name="question" class="input" placeholder="Question text" required>
-    </div>
-    <div class="form-row">
-      <input name="opt1" class="input" placeholder="Option 1" required>
-      <input name="opt2" class="input" placeholder="Option 2" required>
-    </div>
-    <div class="form-row">
-      <input name="opt3" class="input" placeholder="Option 3" required>
-      <input name="opt4" class="input" placeholder="Option 4" required>
-    </div>
-    <div class="form-row">
-      <input name="answer" class="input" placeholder="Correct answer (exact match)" required>
-      <select name="difficulty" class="input">
-        <option>easy</option><option>medium</option><option>hard</option>
-      </select>
-    </div>
-    <button class="btn" type="submit">Add question</button>
-  </form>
+
+<div class="panel-wrapper">
+  <div class="panel-card">
+    <h1>Admin Panel</h1>
+    <p class="subtitle">Add and manage quiz questions efficiently</p>
+
+    <!-- Add Question Form -->
+    <form method="post" action="{{ url_for('admin_add') }}" class="admin-form">
+      <input name="question" class="input full" placeholder="Question text" required>
+
+      <div class="form-row">
+        <input name="opt1" class="input" placeholder="Option 1" required>
+        <input name="opt2" class="input" placeholder="Option 2" required>
+      </div>
+
+      <div class="form-row">
+        <input name="opt3" class="input" placeholder="Option 3" required>
+        <input name="opt4" class="input" placeholder="Option 4" required>
+      </div>
+
+      <div class="form-row">
+        <input name="answer" class="input" placeholder="Correct answer (exact match)" required>
+        <div class="select-wrapper">
+          <select name="difficulty" class="input classy-select">
+            <option value="" disabled selected hidden>Difficulty</option>
+            <option>easy</option>
+            <option>medium</option>
+            <option>hard</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-submit" type="submit">Add Question</button>
+    </form>
+  </div>
+
+  <!-- Question Bank -->
+  <div class="panel-card" style="margin-top: 40px;">
+    <h2>Question Bank</h2>
+
+    {% if questions %}
+      <table class="question-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Difficulty</th>
+            <th style="text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for q in questions %}
+            <tr>
+              <td>
+                <strong>{{ q.question }}</strong>
+                <div class="small">Options: {{ q.options|join(', ') }}</div>
+              </td>
+              <td>{{ q.difficulty }}</td>
+              <td>
+                <div class="action-buttons">
+                  <a class="btn-danger" href="{{ url_for('admin_delete', qid=q.id) }}">Delete</a>
+                  <a class="btn-secondary" href="{{ url_for('edit_question', qid=q.id) }}">Edit</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="small-text">No questions yet. Add some above.</p>
+    {% endif %}
+  </div>
 </div>
 
-<div class="card" style="margin-top:14px">
-  <h4>Question Bank</h4>
-  {% if questions %}
-    <table style="width:100%;border-collapse:collapse">
-      <thead>
-        <tr style="text-align:left;color:#6c757d;font-size:0.9rem">
-          <th style="padding:8px">Question</th>
-          <th style="padding:8px">Difficulty</th>
-          <th style="padding:8px;text-align:right">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for q in questions %}
-          <tr>
-            <td style="padding:10px;border-bottom:1px solid #f1f1f1">
-              <strong>{{ q.question }}</strong>
-              <div class="small">Options: {{ q.options|join(', ') }}</div>
-            </td>
-            <td style="padding:10px;border-bottom:1px solid #f1f1f1">{{ q.difficulty }}</td>
-            <td style="padding:10px;border-bottom:1px solid #f1f1f1;text-align:right">
-              <a class="btn" href="{{ url_for('admin_delete', qid=q.id) }}" style="background:#dc3545">Delete</a>
-              <a class="btn" href="{{ url_for('edit_question', qid=q.id) }}">Edit</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p class="small">No questions yet. Add some above.</p>
-  {% endif %}
-</div>
+<style>
+  /* ===== Layout ===== */
+  .panel-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 20px 100px 20px;
+    background: transparent;
+  }
+
+  /* ===== Glass Card ===== */
+  .panel-card {
+    position: relative;
+    width: 900px;
+    background: rgba(17, 25, 40, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 25px;
+    padding: 50px 60px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.12);
+    transition: all 0.3s ease;
+  }
+
+  /* Animated border */
+  .panel-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    padding: 2px;
+    background: linear-gradient(120deg, #00ffff, #007bff, #00ffff);
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: glowBorder 6s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes glowBorder {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* ===== Typography ===== */
+  .panel-card h1 {
+    font-size: 2.3rem;
+    color: #00ffff;
+    text-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .panel-card h2 {
+    font-size: 1.6rem;
+    color: #00ffff;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #a1a1aa;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  /* ===== Form ===== */
+  .admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .input:focus {
+    border-color: #00ffff;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    outline: none;
+  }
+
+  /* ===== Custom Select (Dropdown) ===== */
+  .select-wrapper {
+    position: relative;
+    flex: 1;
+  }
+
+  .classy-select {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 12px 40px 12px 16px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .classy-select:focus {
+    border-color: #00ffff;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    outline: none;
+  }
+
+  /* Custom dropdown arrow */
+  .select-wrapper::after {
+    content: "▾";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00ffff;
+    pointer-events: none;
+    font-size: 1.2rem;
+  }
+
+  /* ===== Buttons ===== */
+  .btn-submit {
+    background: linear-gradient(90deg, #00ffff, #007bff);
+    border: none;
+    color: #000;
+    padding: 14px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    width: 100%;
+  }
+
+  .btn-submit:hover {
+    background: linear-gradient(90deg, #0099ff, #00e6e6);
+    color: #fff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Action buttons inside table */
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-danger, .btn-secondary {
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-danger {
+    background: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #ff4757;
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  }
+
+  /* ===== Table ===== */
+  .question-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #e2e8f0;
+  }
+
+  .question-table th, .question-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    vertical-align: top;
+  }
+
+  .question-table th {
+    text-align: left;
+    color: #a1a1aa;
+    font-size: 0.9rem;
+  }
+
+  .small-text {
+    text-align: center;
+    margin-top: 15px;
+    color: #a1a1aa;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1000px) {
+    .panel-card {
+      width: 95%;
+      padding: 40px 25px;
+    }
+    .form-row {
+      flex-direction: column;
+    }
+    .action-buttons {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+  }
+</style>
+
 {% endblock %}
